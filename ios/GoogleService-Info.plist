@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>45565559664-8m7gtd4godpfuq6pqda9u5565ih623th.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.45565559664-8m7gtd4godpfuq6pqda9u5565ih623th</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBq_wDA4ixR_w26rzTQpWM1I1mFGO4thwg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>45565559664</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.supertaxi.pilotapp</string>
+	<key>PROJECT_ID</key>
+	<string>super-taxi-6c1ab</string>
+	<key>STORAGE_BUCKET</key>
+	<string>super-taxi-6c1ab.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:45565559664:ios:62aff975548fbef53185b5</string>
+	<key>DATABASE_URL</key>
+	<string>https://super-taxi-6c1ab-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

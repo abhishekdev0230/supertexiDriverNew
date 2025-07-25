@@ -1,21 +1,31 @@
 import java.util.Properties
 import java.io.FileInputStream
 
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.reader(Charsets.UTF_8).use { reader ->
+        localProperties.load(reader)
+    }
+}
+
+val flutterRoot = localProperties.getProperty("flutter.sdk")
+    ?: throw Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+
+val flutterVersionCode = localProperties.getProperty("flutter.versionCode")?.toInt() ?: 1
+val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
+
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+}
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
-}
-
-// Load keystore.properties
-val keystorePropertiesFile = rootProject.file("keystore.properties")
-val keystoreProperties = Properties().apply {
-    if (keystorePropertiesFile.exists()) {
-        load(FileInputStream(keystorePropertiesFile))
-    } else {
-        println("⚠️ Warning: keystore.properties file not found.")
-    }
 }
 
 android {
@@ -30,52 +40,31 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 
     defaultConfig {
         applicationId = "com.supertaxi.driverapp"
         minSdk = 23
         targetSdk = 35
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = flutterVersionCode
+        versionName = flutterVersionName
     }
 
     signingConfigs {
         create("release") {
-            val keyAliasValue = keystoreProperties["keyAlias"]?.toString()
-            val keyPasswordValue = keystoreProperties["keyPassword"]?.toString()
-            val storeFileValue = keystoreProperties["storeFile"]?.toString()
-            val storePasswordValue = keystoreProperties["storePassword"]?.toString()
-
-            if (keyAliasValue != null &&
-                    keyPasswordValue != null &&
-                    storeFileValue != null &&
-                    storePasswordValue != null
-            ) {
-                keyAlias = keyAliasValue
-                keyPassword = keyPasswordValue
-                storeFile = project.file(storeFileValue)
-                storePassword = storePasswordValue
-            } else {
-                println("❌ Error: Missing keystore properties. Aborting release signing.")
-                // Optional: throw GradleException to fail early if keystore is required
-                // throw GradleException("Missing keystore values in keystore.properties")
-            }
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
         }
     }
 
-
-
     buildTypes {
         getByName("release") {
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
         }
     }
 }

@@ -10,7 +10,7 @@ if (localPropertiesFile.exists()) {
 }
 
 val flutterRoot = localProperties.getProperty("flutter.sdk")
-        ?: throw Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    ?: throw Exception("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 
 val flutterVersionCode = localProperties.getProperty("flutter.versionCode")?.toInt() ?: 1
 val flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0"
@@ -29,7 +29,7 @@ plugins {
 }
 
 android {
-    namespace = "com.supertaxi.userapp"
+    namespace = "com.supertaxi.driverapp"
     compileSdk = 35
     ndkVersion = "27.0.12077973"
 
@@ -38,16 +38,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "11"
     }
 
     defaultConfig {
-        applicationId = "com.supertaxi.userapp"
+        applicationId = "com.supertaxi.driverapp"
         minSdk = 23
         targetSdk = 35
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        versionCode = flutterVersionCode
+        versionName = flutterVersionName
     }
 
     signingConfigs {
@@ -66,6 +67,10 @@ android {
             signingConfig = signingConfigs.getByName("release")
         }
     }
+}
+
+flutter {
+    source = "../.."
 }
 
 dependencies {
